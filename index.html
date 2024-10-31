@@ -2,23 +2,48 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">        
     <title>Control de Firmas</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Control de Firmas</h1>
+    <header>
+        <img src="https://buenosaires.gob.ar/assets/img/logos/LogoBA.svg" alt="Logo Buenos Aires" class="logo">
+        <div class="title-container">
+            <h1>Control de Firmas</h1>
+        </div>
+    </header>
     <form id="personForm">
+        <label for="apellido">Apellido</label>
         <input type="text" id="apellido" placeholder="Apellido" required>
+        
+        <label for="nombre">Nombre</label>
         <input type="text" id="nombre" placeholder="Nombre" required>
-        <input type="text" id="cuit" placeholder="CUIT" required>
+        
+        <label for="cuit">CUIT</label>
+        <input type="text" id="cuit" placeholder="CUIT" pattern="\d{11}" title="El CUIT debe tener 11 dígitos" required>
+        
+        <label for="gerencia">Gerencia</label>
         <input type="text" id="gerencia" placeholder="Gerencia" required>
+        
+        <label for="subgerencia">Subgerencia</label>
         <input type="text" id="subgerencia" placeholder="Subgerencia" required>
+        
+        <label for="mes">Mes</label>
         <input type="text" id="mes" placeholder="Mes" required>
+        
+        <label for="fecha">Fecha</label>
         <input type="date" id="fecha" placeholder="Fecha" required>
+        
+        <label for="ingreso">Horario de ingreso</label>
         <input type="time" id="ingreso" placeholder="Horario de ingreso" required>
+        
+        <label for="egreso">Horario de egreso</label>
         <input type="time" id="egreso" placeholder="Horario de egreso" required>
+        
+        <label for="observaciones">Observaciones</label>
         <input type="text" id="observaciones" placeholder="Observaciones">
+        
         <button type="button" onclick="addPerson()">Cargar Persona</button>
         <button type="button" onclick="removePerson()">Eliminar Persona</button>
     </form>
@@ -27,7 +52,7 @@
         <button onclick="showSummary()">Mostrar Resumen</button>
     </div>
     <div id="summary"></div>
-    <script src="script.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+    <script src="script.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js" defer></script>
 </body>
 </html>
