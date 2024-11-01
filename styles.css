@@ -1,10 +1,12 @@
-
 /* Definición de variables CSS para colores y fuentes */
 :root {
     --primary-color: #ffd700; 
     --secondary-color: #333; 
     --background-color: #f4f4f4; 
-    --font-family: Arial, sans-serif; 
+    --font-family: 'Arial', sans-serif; 
+    --white-color: #fff; 
+    --input-border-color: #ccc; 
+    --input-focus-border-color: #ffcc00; 
 }
 
 /* Estilos generales para el cuerpo del documento */
@@ -18,48 +20,65 @@ body {
 header {
     display: flex; 
     align-items: center; 
+    justify-content: space-between; 
     margin-bottom: 20px; 
+    background-color: var(--primary-color); 
+    padding: 10px 20px; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+
+/* Contenedor del logo */
+.logo-container {
+    display: flex; 
+    align-items: center; 
 }
 
 /* Estilos para el logo */
 .logo {
     max-width: 150px; 
-    margin-right: 20px; 
+    margin-right: 10px; 
+    filter: brightness(0) invert(1); 
 }
 
 /* Contenedor del título */
 .title-container {
-    background-color: var(--primary-color); 
-    border-radius: 8px; 
     flex-grow: 1; 
+    text-align: center; 
 }
 
 /* Estilos para el título principal */
 h1 {
     margin: 0; 
-    text-align: center; 
-    color: var(--secondary-color); 
+    color: var(--white-color); 
 }
 
 /* Estilos para el formulario */
 form {
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.9); 
     padding: 20px; 
     border-radius: 8px; 
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
     max-width: 600px; 
-    margin: 0 auto;
+    margin: 0 auto; 
     width: 100%; 
 }
 
 /* Estilos para los campos de entrada */
 input {
-    display: block;
+    display: block; 
     width: 100%; 
-    padding: 10px; 
+    padding: 10px;
     margin-bottom: 10px; 
-    border: 1px solid #ccc; 
+    border: 1px solid var(--input-border-color); 
     border-radius: 4px; 
+    transition: border-color 0.3s; 
+}
+
+/* Estilos para los campos de entrada al enfocarse */
+input:focus {
+    border-color: var(--input-focus-border-color);
+    outline: none; 
 }
 
 /* Estilos para los botones */
@@ -68,14 +87,15 @@ button {
     padding: 10px 20px; 
     margin-right: 10px; 
     border: none; 
-    border-radius: 4px;
-    background-color: var(--primary-color);
+    border-radius: 4px; 
+    background-color: var(--primary-color); 
     color: var(--secondary-color); 
-   font-size: 16px; 
+    font-size: 16px; 
     cursor: pointer; 
+    transition: background-color 0.3s; 
 }
 
-/* Estilos para los botones al pasar el mouse */
+/* Estilos para los botones al pasar el ratón */
 button:hover {
     background-color: #e6b800; 
 }
@@ -84,10 +104,10 @@ button:hover {
 #summary {
     max-width: 600px; 
     margin: 20px auto; 
-    background-color: #fff; 
+    background-color: rgba(255, 255, 255, 0.9); 
     padding: 20px; 
-    border-radius: 8px; 
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Estilos para las tablas */
@@ -115,6 +135,26 @@ th {
 
 /* Estilos para el contenedor de botones */
 .button-container {
-    text-align: right;
-    margin-top: 20px;
+    text-align: right; 
+    margin-top: 20px; 
+}
+/* Estilos para el pie de página */
+footer {
+    background-color: var(--primary-color); 
+   padding: 10px; 
+    border-radius: 8px; 
+    margin-top: 20px; 
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); 
+}
+
+/* Contenedor del pie de página */
+.footer-container {
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+}
+
+/* Estilos para la imagen del pie de página */
+.footer-image {
+    max-width: 150px; /
 }
