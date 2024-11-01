@@ -1,11 +1,16 @@
-// script.js
+
+// Array para almacenar los datos de las personas
 let persons = [];
 
+// Función para agregar una persona al array
 function addPerson() {
+    // Obtener los valores de los campos de ingreso y egreso
     const ingreso = document.getElementById('ingreso').value;
     const egreso = document.getElementById('egreso').value;
+    // Calcular las horas cumplidas
     const horasCumplidas = calculateHours(ingreso, egreso);
 
+    // Crear un objeto con los datos de la persona
     const person = {
         apellido: document.getElementById('apellido').value,
         nombre: document.getElementById('nombre').value,
@@ -19,32 +24,46 @@ function addPerson() {
         horas: horasCumplidas,
         observaciones: document.getElementById('observaciones').value
     };
+    // Agregar el objeto al array de personas
     persons.push(person);
-    alert('Persona cargada');
-    document.getElementById('personForm').reset(); // Reiniciar el formulario
+    // Mostrar una alerta indicando que la persona fue cargada
+    alert('Persona cargada con exito');
+    // Reiniciar el formulario
+    document.getElementById('personForm').reset();
 }
 
+// Función para calcular las horas cumplidas entre el ingreso y el egreso
 function calculateHours(ingreso, egreso) {
+    // Dividir las horas y minutos de ingreso y egreso
     const [ingresoHours, ingresoMinutes] = ingreso.split(':').map(Number);
     const [egresoHours, egresoMinutes] = egreso.split(':').map(Number);
 
+    // Crear objetos Date para ingreso y egreso
     const ingresoDate = new Date(0, 0, 0, ingresoHours, ingresoMinutes);
     const egresoDate = new Date(0, 0, 0, egresoHours, egresoMinutes);
 
-    let diff = (egresoDate - ingresoDate) / (1000 * 60 * 60); // Convert milliseconds to hours
-    if (diff < 0) diff += 24; // Handle overnight shifts
+    // Calcular la diferencia en horas
+    let diff = (egresoDate - ingresoDate) / (1000 * 60 * 60); // Convertir milisegundos a horas
+    if (diff < 0) diff += 24; // Manejar turnos nocturnos
 
-    return diff.toFixed(2); // Return hours with two decimal places
+    return diff.toFixed(2); // Devolver las horas con dos decimales
 }
 
+// Función para eliminar una persona del array
 function removePerson() {
+    // Obtener el CUIT de la persona a eliminar
     const cuit = document.getElementById('cuit').value;
+    // Filtrar el array para eliminar la persona con el CUIT especificado
     persons = persons.filter(person => person.cuit !== cuit);
+    // Mostrar una alerta indicando que la persona fue eliminada
     alert('Persona eliminada');
 }
 
+// Función para descargar los datos en un archivo Excel
 function downloadExcel() {
+    // Crear un nuevo libro de Excel
     const wb = XLSX.utils.book_new();
+    // Agrupar las personas por mes
     const groupedByMonth = persons.reduce((acc, person) => {
         if (!acc[person.mes]) {
             acc[person.mes] = [];
@@ -53,16 +72,20 @@ function downloadExcel() {
         return acc;
     }, {});
 
+    // Crear una hoja de Excel para cada mes
     Object.keys(groupedByMonth).forEach(mes => {
         const ws = XLSX.utils.json_to_sheet(groupedByMonth[mes]);
         XLSX.utils.book_append_sheet(wb, ws, mes);
     });
 
-    XLSX.writeFile(wb, "personas.xlsx");
+    // Descargar el archivo Excel
+    XLSX.writeFile(wb, "Planilla.xlsx");
 }
 
+// Función para mostrar el resumen de horas cumplidas
 function showSummary() {
     const summaryDiv = document.getElementById('summary');
+    // Agrupar y sumar las horas cumplidas por persona y mes
     const summaryData = persons.reduce((acc, person) => {
         const key = `${person.cuit}-${person.mes}`;
         if (!acc[key]) {
@@ -75,6 +98,7 @@ function showSummary() {
 
     const summaryArray = Object.values(summaryData);
 
+    // Generar el HTML para mostrar el resumen en una tabla
     summaryDiv.innerHTML = `
         <table>
             <tr>
@@ -98,7 +122,9 @@ function showSummary() {
     `;
 }
 
+// Función para descargar el resumen en un archivo Excel
 function downloadSummaryExcel() {
+    // Agrupar y sumar las horas cumplidas por persona y mes
     const summaryData = persons.reduce((acc, person) => {
         const key = `${person.cuit}-${person.mes}`;
         if (!acc[key]) {
@@ -110,8 +136,10 @@ function downloadSummaryExcel() {
     }, {});
 
     const summaryArray = Object.values(summaryData);
+    // Crear una hoja de Excel con el resumen
     const ws = XLSX.utils.json_to_sheet(summaryArray);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Resumen");
-    XLSX.writeFile(wb, "resumen_personas.xlsx");
+    // Descargar el archivo Excel
+    XLSX.writeFile(wb, "resumen_planilla.xlsx");
 }
