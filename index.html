@@ -1,58 +1,81 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- Metadatos del documento -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">        
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Control de Firmas</title>
+    <!-- Enlace al archivo de estilos CSS -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Encabezado del documento -->
     <header>
+        <!-- Logo de Buenos Aires -->
         <img src="https://buenosaires.gob.ar/assets/img/logos/LogoBA.svg" alt="Logo Buenos Aires" class="logo">
         <div class="title-container">
+            <!-- Título principal de la página -->
             <h1>Control de Firmas</h1>
         </div>
     </header>
+    <!-- Formulario para ingresar datos de personas -->
     <form id="personForm">
+        <!-- Campo para ingresar el apellido -->
         <label for="apellido">Apellido</label>
         <input type="text" id="apellido" placeholder="Apellido" required>
         
+        <!-- Campo para ingresar el nombre -->
         <label for="nombre">Nombre</label>
         <input type="text" id="nombre" placeholder="Nombre" required>
         
+        <!-- Campo para ingresar el CUIT con validación de 11 dígitos -->
         <label for="cuit">CUIT</label>
         <input type="text" id="cuit" placeholder="CUIT" pattern="\d{11}" title="El CUIT debe tener 11 dígitos" required>
         
+        <!-- Campo para ingresar la gerencia -->
         <label for="gerencia">Gerencia</label>
         <input type="text" id="gerencia" placeholder="Gerencia" required>
         
+        <!-- Campo para ingresar la subgerencia -->
         <label for="subgerencia">Subgerencia</label>
         <input type="text" id="subgerencia" placeholder="Subgerencia" required>
         
+        <!-- Campo para ingresar el mes -->
         <label for="mes">Mes</label>
         <input type="text" id="mes" placeholder="Mes" required>
         
+        <!-- Campo para ingresar la fecha -->
         <label for="fecha">Fecha</label>
         <input type="date" id="fecha" placeholder="Fecha" required>
         
+        <!-- Campo para ingresar el horario de ingreso -->
         <label for="ingreso">Horario de ingreso</label>
         <input type="time" id="ingreso" placeholder="Horario de ingreso" required>
         
+        <!-- Campo para ingresar el horario de egreso -->
         <label for="egreso">Horario de egreso</label>
         <input type="time" id="egreso" placeholder="Horario de egreso" required>
         
+        <!-- Campo para ingresar observaciones -->
         <label for="observaciones">Observaciones</label>
         <input type="text" id="observaciones" placeholder="Observaciones">
         
+        <!-- Botón para cargar los datos de una persona -->
         <button type="button" onclick="addPerson()">Cargar Persona</button>
+        <!-- Botón para eliminar los datos de una persona -->
         <button type="button" onclick="removePerson()">Eliminar Persona</button>
     </form>
     <div class="button-container">
+        <!-- Botón para descargar el archivo Excel completo -->
         <button onclick="downloadExcel()">Descargar Excel Completo</button>
+        <!-- Botón para mostrar el resumen -->
         <button onclick="showSummary()">Mostrar Resumen</button>
     </div>
+    <!-- Contenedor para mostrar el resumen -->
     <div id="summary"></div>
+    <!-- Enlace al archivo de script JavaScript -->
     <script src="script.js" defer></script>
+    <!-- Enlace a la biblioteca XLSX para manejar archivos Excel -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js" defer></script>
 </body>
 </html>
