@@ -1,4 +1,3 @@
-
 // Array para almacenar los datos de las personas
 let persons = [];
 
@@ -27,7 +26,7 @@ function addPerson() {
     // Agregar el objeto al array de personas
     persons.push(person);
     // Mostrar una alerta indicando que la persona fue cargada
-    alert('Persona cargada con exito');
+    alert('Persona cargada con éxito');
     // Reiniciar el formulario
     document.getElementById('personForm').reset();
 }
@@ -59,7 +58,7 @@ function removePerson() {
     alert('Persona eliminada');
 }
 
-// Función para descargar los datos en un archivo Excel
+// Función para descargar el Excel completo
 function downloadExcel() {
     // Crear un nuevo libro de Excel
     const wb = XLSX.utils.book_new();
@@ -79,7 +78,7 @@ function downloadExcel() {
     });
 
     // Descargar el archivo Excel
-    XLSX.writeFile(wb, "Planilla.xlsx");
+    XLSX.writeFile(wb, "Planilla_Completa.xlsx");
 }
 
 // Función para mostrar el resumen de horas cumplidas
@@ -118,7 +117,6 @@ function showSummary() {
                 </tr>
             `).join('')}
         </table>
-        <button onclick="downloadSummaryExcel()">Descargar Resumen Excel</button>
     `;
 }
 
@@ -135,11 +133,36 @@ function downloadSummaryExcel() {
         return acc;
     }, {});
 
-    const summaryArray = Object.values(summaryData);
-    // Crear una hoja de Excel con el resumen
-    const ws = XLSX.utils.json_to_sheet(summaryArray);
+    const summaryArray = Object.values(summaryData).map(({ nombre, apellido, cuit, mes, horas }) => ({
+        nombre,
+        apellido,
+        cuit,
+        mes,
+        horas
+    }));
+    // Crear un nuevo libro de Excel
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Resumen");
+
+    // Crear una hoja de Excel con el resumen para cada mes
+    const groupedByMonth = summaryArray.reduce((acc, person) => {
+        if (!acc[person.mes]) {
+            acc[person.mes] = [];
+        }
+        acc[person.mes].push({
+            nombre: person.nombre,
+            apellido: person.apellido,
+            cuit: person.cuit,
+            mes: person.mes,
+            horas: person.horas
+        });
+        return acc;
+    }, {});
+
+    Object.keys(groupedByMonth).forEach(mes => {
+        const ws = XLSX.utils.json_to_sheet(groupedByMonth[mes]);
+        XLSX.utils.book_append_sheet(wb, ws, mes);
+    });
+
     // Descargar el archivo Excel
-    XLSX.writeFile(wb, "resumen_planilla.xlsx");
+    XLSX.writeFile(wb, "Resumen_Planilla.xlsx");
 }
