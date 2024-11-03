@@ -1,11 +1,21 @@
 // Array para almacenar los datos de las personas
 let persons = [];
 
+// Cargar las personas desde localStorage al inicio
+function loadPersons() {
+    const storedPersons = localStorage.getItem('persons');
+    if (storedPersons) {
+        persons = JSON.parse(storedPersons);
+        showSummary(); // Mostrar el resumen si hay datos previamente almacenados
+    }
+}
+
 // Función para agregar una persona al array
 function addPerson() {
     // Obtener los valores de los campos de ingreso y egreso
     const ingreso = document.getElementById('ingreso').value;
     const egreso = document.getElementById('egreso').value;
+
     // Calcular las horas cumplidas
     const horasCumplidas = calculateHours(ingreso, egreso);
 
@@ -23,10 +33,19 @@ function addPerson() {
         horas: horasCumplidas,
         observaciones: document.getElementById('observaciones').value
     };
+
     // Agregar el objeto al array de personas
     persons.push(person);
+
+    // Actualizar localStorage
+    localStorage.setItem('persons', JSON.stringify(persons));
+
     // Mostrar una alerta indicando que la persona fue cargada
     alert('Persona cargada con éxito');
+
+    // Actualizar el resumen
+    showSummary();
+
     // Reiniciar el formulario
     document.getElementById('personForm').reset();
 }
@@ -49,14 +68,28 @@ function calculateHours(ingreso, egreso) {
 }
 
 // Función para eliminar una persona del array
-function removePerson() {
-    // Obtener el CUIT de la persona a eliminar
-    const cuit = document.getElementById('cuit').value;
+function removePerson(cuit) {
     // Filtrar el array para eliminar la persona con el CUIT especificado
     persons = persons.filter(person => person.cuit !== cuit);
+
+    // Actualizar localStorage
+    localStorage.setItem('persons', JSON.stringify(persons));
+
     // Mostrar una alerta indicando que la persona fue eliminada
     alert('Persona eliminada');
+
+    // Actualizar el resumen
+    showSummary();
 }
+
+// Llamar a la función de carga al inicio
+loadPersons();
+
+// Suponiendo que showSummary es una función que muestra un resumen de las personas
+function showSummary() {
+    // Lógica para mostrar el resumen de las personas (no implementada en el código original)
+}
+
 
 // Función para descargar el Excel completo
 function downloadExcel() {
@@ -106,6 +139,7 @@ function showSummary() {
                 <th>CUIT</th>
                 <th>Mes</th>
                 <th>Horas Cumplidas</th>
+                <th>Acción</th>
             </tr>
             ${summaryArray.map(person => `
                 <tr>
@@ -114,6 +148,7 @@ function showSummary() {
                     <td>${person.cuit}</td>
                     <td>${person.mes}</td>
                     <td>${person.horas.toFixed(2)}</td>
+                    <td><button onclick="removePerson('${person.cuit}')">❌</button></td>
                 </tr>
             `).join('')}
         </table>
@@ -151,7 +186,7 @@ function downloadSummaryExcel() {
         acc[person.mes].push({
             nombre: person.nombre,
             apellido: person.apellido,
-            cuit: person.cuit,
+            cuit: person.cuit,                                              
             mes: person.mes,
             horas: person.horas
         });
