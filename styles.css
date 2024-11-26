@@ -158,3 +158,22 @@ footer {
 .footer-image {
     max-width: 150px; /
 }
+.autocomplete-suggestions {
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+    position: absolute;
+    z-index: 1000;
+    background-color: white;
+}
+.suggestion {
+    padding: 10px;
+    cursor: pointer;
+}
+.suggestion:hover {
+    background-color: #eaeaea;
+}
+/* Adicionalmente, podrías agregar estilos para form */
+#miFormulario {
+    position: relative;
+}
