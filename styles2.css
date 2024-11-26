@@ -1,0 +1,117 @@
+/* Definición de variables CSS para colores y fuentes */
+:root {
+    --primary-color: #ffd700;
+    --secondary-color: #333;
+    --background-color: #f4f4f4;
+    --font-family: 'Arial', sans-serif;
+    --white-color: #fff;
+    --input-border-color: #ccc;
+    --input-focus-border-color: #ffcc00;
+}
+
+/* Estilos generales para el cuerpo del documento */
+body {
+    font-family: var(--font-family);
+    margin: 20px;
+    background-color: var(--background-color);
+}
+
+/* Estilos para el encabezado */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    background-color: var(--primary-color);
+    padding: 10px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Contenedor del logo */
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+/* Estilos para el logo */
+.logo {
+    max-width: 150px;
+    margin-right: 10px;
+    filter: brightness(0) invert(1);
+}
+
+/* Contenedor del título */
+.title-container {
+    flex-grow: 1;
+    text-align: center;
+}
+
+/* Estilos para el título principal */
+h1 {
+    margin: 0;
+    color: var(--white-color);
+}
+
+/* Estilos para los botones */
+.button, .action-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 4px;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+/* Estilos para los botones al pasar el ratón */
+.button:hover, .action-button:hover {
+    background-color: #e6b800;
+}
+
+/* Estilos para las tablas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+/* Bordes de las tablas, celdas y encabezados */
+table, th, td {
+    border: 1px solid #ccc;
+}
+
+/* Relleno y alineación de las celdas */
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+/* Estilos para los encabezados de las tablas */
+th {
+    background-color: #f2f2f2;
+}
+
+/* Estilos para el pie de página */
+footer {
+    background-color: var(--primary-color);
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 20px;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Contenedor del pie de página */
+.footer-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Estilos para la imagen del pie de página */
+.footer-image {
+    max-width: 150px;
+}
