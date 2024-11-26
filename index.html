@@ -7,81 +7,152 @@
     <title>Control de Firmas</title>
     <!-- Enlace al archivo de estilos CSS -->
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .autocomplete-suggestions {
+            border: 1px solid #ccc;
+            max-height: 150px;
+            overflow-y: auto;
+            position: absolute;
+            z-index: 1000;
+            background-color: white;
+        }
+        .suggestion {
+            padding: 10px;
+            cursor: pointer;
+        }
+        .suggestion:hover {
+            background-color: #eaeaea;
+        }
+        #miFormulario {
+            position: relative;
+        }
+    </style>
 </head>
 <body>
     <!-- Encabezado del documento -->
     <header>
         <div class="logo-container">
-            <!-- Logo de Buenos Aires -->
             <img src="https://buenosaires.gob.ar/assets/img/logos/LogoBA.svg" alt="Logo Buenos Aires" class="logo">
-           
         </div>
         <div class="title-container">
-            <!-- Título principal de la página -->
             <h1>Control de Firmas</h1>
         </div>
     </header>
+    
+    <!-- Botón para redirigir a la lista de contratados -->
+    <button onclick="window.location.href='index2.html'">Lista de contratados</button>
+
     <!-- Formulario para ingresar datos de personas -->
     <form id="personForm">
-        <!-- Campo para ingresar el apellido -->
         <label for="apellido">Apellido</label>
-        <input type="text" id="apellido" placeholder="Apellido" required>
+        <input type="text" id="apellido" placeholder="Apellido" autocomplete="off" required>
+        <div id="sugerenciasApellido" class="autocomplete-suggestions"></div>
         
-        <!-- Campo para ingresar el nombre -->
         <label for="nombre">Nombre</label>
-        <input type="text" id="nombre" placeholder="Nombre" required>
-        
-        <!-- Campo para ingresar el CUIT con validación de 11 dígitos -->
+        <input type="text" id="nombre" placeholder="Nombre" autocomplete="off" required>
+        <div id="sugerenciasNombre" class="autocomplete-suggestions"></div>
+
         <label for="cuit">CUIT</label>
         <input type="text" id="cuit" placeholder="CUIT" pattern="\d{11}" title="El CUIT debe tener 11 dígitos" required>
         
-        <!-- Campo para ingresar la gerencia -->
         <label for="gerencia">Gerencia</label>
         <input type="text" id="gerencia" placeholder="Gerencia" required>
         
-        <!-- Campo para ingresar la subgerencia -->
         <label for="subgerencia">Subgerencia</label>
         <input type="text" id="subgerencia" placeholder="Subgerencia" required>
         
-        <!-- Campo para ingresar el mes -->
         <label for="mes">Mes</label>
         <input type="text" id="mes" placeholder="Mes" required>
         
-        <!-- Campo para ingresar la fecha -->
         <label for="fecha">Fecha</label>
         <input type="date" id="fecha" placeholder="Fecha" required>
         
-        <!-- Campo para ingresar el horario de ingreso -->
         <label for="ingreso">Horario de ingreso</label>
         <input type="time" id="ingreso" placeholder="Horario de ingreso" required>
         
-        <!-- Campo para ingresar el horario de egreso -->
         <label for="egreso">Horario de egreso</label>
         <input type="time" id="egreso" placeholder="Horario de egreso" required>
         
-        <!-- Campo para ingresar observaciones -->
         <label for="observaciones">Observaciones</label>
         <input type="text" id="observaciones" placeholder="Observaciones">
         
-        <!-- Botón para cargar los datos de una persona -->
         <button type="button" onclick="addPerson()">Cargar Persona</button>
     </form>
+    
     <div class="button-container">
-        <!-- Botón para descargar el archivo Excel completo -->
         <button onclick="downloadExcel()">Descargar Excel Completo</button>
-        <button onclick="downloadSummaryExcel()">Descargar Resumen
+        <button onclick="downloadSummaryExcel()">Descargar Resumen</button>
     </div>
-    <!-- Contenedor para mostrar el resumen -->
+    
     <div id="summary"></div>
-    <!-- Línea amarilla con imagen al final de la página -->
+    
     <footer>
         <div class="footer-container">
             <img src="https://badesdeadentro.gob.ar/sites/default/files/2017-08/2017-08-09.png" alt="Imagen izquierda" class="footer-image">
         </div>
     </footer>
-    <!-- Enlace al archivo de script JavaScript -->
+    
     <script src="script.js" defer></script>
-    <!-- Enlace a la biblioteca XLSX para manejar archivos Excel -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js" defer></script>
+    <script>
+        const nombres = JSON.parse(localStorage.getItem('nombres')) || ["Juan", "Pedro", "Maria", "Jose", "Ana"];
+        const apellidos = JSON.parse(localStorage.getItem('apellidos')) || ["Gonzalez", "Lopez", "Fernandez", "Garcia", "Martinez"];
+        
+        const nombreInput = document.getElementById('nombre');
+        const sugerenciasNombre = document.getElementById('sugerenciasNombre');
+        
+        nombreInput.addEventListener('input', function() {
+            const valor = this.value;
+            sugerenciasNombre.innerHTML = '';
+            if (valor) {
+                const sugerencias = nombres.filter(nombre => nombre.toLowerCase().includes(valor.toLowerCase()));
+                sugerencias.forEach(nombre => {
+                    const div = document.createElement('div');
+                    div.textContent = nombre;
+                    div.classList.add('suggestion');
+                    div.addEventListener('click', () => {
+                        nombreInput.value = nombre;
+                        sugerenciasNombre.innerHTML = '';
+                    });
+                    sugerenciasNombre.appendChild(div);
+                });
+            }
+        });
+        
+        const apellidoInput = document.getElementById('apellido');
+        const sugerenciasApellido = document.getElementById('sugerenciasApellido');
+
+        apellidoInput.addEventListener('input', function() {
+            const valor = this.value;
+            sugerenciasApellido.innerHTML = '';
+            if (valor) {
+                const sugerencias = apellidos.filter(apellido => apellido.toLowerCase().includes(valor.toLowerCase()));
+                sugerencias.forEach(apellido => {
+                    const div = document.createElement('div');
+                    div.textContent = apellido;
+                    div.classList.add('suggestion');
+                    div.addEventListener('click', () => {
+                        apellidoInput.value = apellido;
+                        sugerenciasApellido.innerHTML = '';
+                    });
+                    sugerenciasApellido.appendChild(div);
+                });
+            }
+        });
+
+        function addPerson() {
+            const nombre = nombreInput.value;
+            const apellido = apellidoInput.value;
+            if (!nombres.includes(nombre)) {
+                nombres.push(nombre);
+                localStorage.setItem('nombres', JSON.stringify(nombres));
+            }
+            if (!apellidos.includes(apellido)) {
+                apellidos.push(apellido);
+                localStorage.setItem('apellidos', JSON.stringify(apellidos));
+            }
+            alert('Persona cargada con éxito');
+        }
+    </script>
 </body>
 </html>
