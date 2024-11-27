@@ -157,43 +157,104 @@
             updateSuggestions(nombre, apellido);
         }
 
-        function editPersona(index) {
-            const persona = personas[index];
-            persona.nombre = prompt('Nombre:', persona.nombre);
-            persona.apellido = prompt('Apellido:', persona.apellido);
-            persona.cuit = prompt('CUIT:', persona.cuit);
-            persona.gerencia = prompt('Gerencia:', persona.gerencia);
-            persona.subgerencia = prompt('Subgerencia:', persona.subgerencia);
-            localStorage.setItem('personas', JSON.stringify(personas));
-            renderTable();
-        }
+        function renderTable() {
+    const table = document.getElementById('personasTable');
+    table.innerHTML = '<tr><th>Nombre</th><th>Apellido</th><th>CUIT</th><th>Gerencia</th><th>Subgerencia</th><th>Acciones</th></tr>';
+    personas.forEach((persona, index) => {
+        const row = table.insertRow();
+        row.insertCell(0).innerText = persona.nombre;
+        row.insertCell(1).innerText = persona.apellido;
+        row.insertCell(2).innerText = persona.cuit;
+        row.insertCell(3).innerText = persona.gerencia;
+        row.insertCell(4).innerText = persona.subgerencia;
+        const actions = row.insertCell(5);
+        actions.innerHTML = `<button class="button" onclick="editPersona(${index})">Editar</button> <button class="button" onclick="deletePersona(${index})">Eliminar</button>`;
+    });
+}
 
-        function deletePersona(index) {
-            if (confirm('¿Estás seguro de que deseas eliminar esta persona?')) {
-                personas.splice(index, 1);
-                localStorage.setItem('personas', JSON.stringify(personas));
-                renderTable();
-            }
-        }
+function addPersona() {
+    // Solicitar el nombre, apellido y cuit a través de prompts
+    const nombre = prompt('Cargar Nombre del Contratado:').toUpperCase();
+    const apellido = prompt('Cargar Apellido del Contratado:').toUpperCase();
+    const cuit = prompt('Cargar CUIT del Contratado:').toUpperCase();
 
-        function updateSuggestions(nombre, apellido) {
-            let nombres = JSON.parse(localStorage.getItem('nombres')) || [];
-            let apellidos = JSON.parse(localStorage.getItem('apellidos')) || [];
+    // Mostrar el modal para elegir Gerencia y Subgerencia
+    document.getElementById('selectModal').style.display = 'flex';
 
-            // Añadir el nombre si no está presente en la lista
-            if (!nombres.includes(nombre)) {
-                nombres.push(nombre);
-                localStorage.setItem('nombres', JSON.stringify(nombres));
-            }
+    // Guardar la persona con los valores obtenidos hasta ahora (sin gerencia ni subgerencia)
+    // Guardamos la persona sin estos dos campos por ahora
+    personas.push({ nombre, apellido, cuit, gerencia: "", subgerencia: "" });
 
-            // Añadir el apellido si no está presente en la lista
-            if (!apellidos.includes(apellido)) {
-                apellidos.push(apellido);
-                localStorage.setItem('apellidos', JSON.stringify(apellidos));
-            }
-        }
+    // Guardamos temporalmente el índice de la persona que estamos editando
+    // Esto se usará más tarde para actualizar esa persona con las opciones elegidas
+    localStorage.setItem('personas', JSON.stringify(personas));
+}
+function guardarPersona() {
+    // Obtener los valores seleccionados de los select
+    const gerencia = document.getElementById('gerencia').value;
+    const subgerencia = document.getElementById('subgerencia').value;
 
-        window.onload = renderTable;
+    // Obtener el último registro añadido (sin gerencia ni subgerencia aún)
+    const persona = personas[personas.length - 1];
+
+    // Actualizar los valores de Gerencia y Subgerencia
+    persona.gerencia = gerencia;
+    persona.subgerencia = subgerencia;
+
+    // Guardar la persona actualizada en localStorage
+    localStorage.setItem('personas', JSON.stringify(personas));
+
+    // Cerrar el modal y renderizar la tabla nuevamente
+    cerrarModal();
+    renderTable();
+}
+function cerrarModal() {
+    document.getElementById('selectModal').style.display = 'none';
+}
+
+
+function editPersona(index) {
+    const persona = personas[index];
+    // Solicitar los datos del usuario y convertir a mayúsculas
+    persona.nombre = prompt('Nombre:', persona.nombre).toUpperCase();
+    persona.apellido = prompt('Apellido:', persona.apellido).toUpperCase();
+    persona.cuit = prompt('CUIT:', persona.cuit).toUpperCase();
+    persona.gerencia = prompt('Gerencia:', persona.gerencia).toUpperCase();
+    persona.subgerencia = prompt('Subgerencia:', persona.subgerencia).toUpperCase();
+
+    // Actualizar el array de personas y almacenar en localStorage
+    localStorage.setItem('personas', JSON.stringify(personas));
+    renderTable();
+}
+
+function deletePersona(index) {
+    if (confirm('¿Estás seguro de que deseas eliminar esta persona?')) {
+        personas.splice(index, 1);
+        localStorage.setItem('personas', JSON.stringify(personas));
+        renderTable();
+    }
+}
+
+
+function updateSuggestions(nombre, apellido) {
+    let nombres = JSON.parse(localStorage.getItem('nombres')) || [];
+    let apellidos = JSON.parse(localStorage.getItem('apellidos')) || [];
+
+    // Añadir el nombre si no está presente en la lista
+    if (!nombres.includes(nombre)) {
+        nombres.push(nombre);
+        localStorage.setItem('nombres', JSON.stringify(nombres));
+    }
+
+    // Añadir el apellido si no está presente en la lista
+    if (!apellidos.includes(apellido)) {
+        apellidos.push(apellido);
+        localStorage.setItem('apellidos', JSON.stringify(apellidos));
+    }
+}
+
+window.onload = renderTable;
+
     </script>
 </head>
 <body>
@@ -210,7 +271,42 @@
     <button class="button" onclick="addPersona()">Agregar Persona</button>
 
     <table id="personasTable"></table>
+    <button class="button" onclick="window.location.href='index.html';">Volver al formulario</button>
+     
+    <!-- Modal para seleccionar opciones de Gerencia y Subgerencia -->
+<div id="selectModal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background-color: rgba(0,0,0,0.5); justify-content: center; align-items: center; padding: 20px;">
+    <div style="background-color:white; padding: 20px; border-radius: 8px;">
+        <h3>Seleccionar Gerencia y Subgerencia</h3>
 
+        <!-- Formulario de selección -->
+        <form id="selectForm">
+            <label for="gerencia">Elija Gerencia:</label>
+            <select id="gerencia" required>
+                <option value="G.O PLANIFICACION">G.O PLANIFICACION</option>
+                <option value="G.O OBRAS EN CALZADA">G.O OBRAS EN CALZADA</option>
+                <option value="G.O COORDINACION DE PUENTES">G.O COORDINACION DE PUENTES</option>
+                <option value="'G.O SOPORTE ADMINISTRATIVO">'G.O SOPORTE ADMINISTRATIVO</option>
+                <option value="DIRECCION GENERAL">DIRECCION GENERAL</option>
+            </select>
+
+            <label for="subgerencia">Elija Subgerencia:</label>
+            <select id="subgerencia" required>
+                <option value="SUBGERENCIA OPERATIVA FISCALIZACIÓN Y PLANIFICACIÓN DE CALZADAS">SUBGERENCIA OPERATIVA FISCALIZACIÓN Y PLANIFICACIÓN DE CALZADAS</option>
+                <option value="SUBGERENCIA OPERATIVA INSPECCIÓN Y SOPORTE DE EJECUCIÓN">SUBGERENCIA OPERATIVA INSPECCIÓN Y SOPORTE DE EJECUCIÓN</option>
+                <option value="G.O COORDINACION DE PUENTES">G.O COORDINACION DE PUENTES</option>
+                <option value="G.O PLANIFICACION">G.O PLANIFICACION</option>
+                <option value="G.O OBRAS EN CALZADA">G.O OBRAS EN CALZADA</option>
+                <option value=" DIRECCION GENERAL"> DIRECCION GENERAL</option>
+               <option value="    SUBGERENCIA OPERATIVA GESTIÓN DE OBRAS ">    SUBGERENCIA OPERATIVA GESTIÓN DE OBRAS </option>
+            </select>
+
+            <button type="button" onclick="guardarPersona()">Guardar</button>
+            <button type="button" onclick="cerrarModal()">Cancelar</button>
+        </form>
+    </div>
+</div>
+
+   
     <footer>
         <div class="footer-container">
             <img src="https://badesdeadentro.gob.ar/sites/default/files/2017-08/2017-08-09.png" alt="Imagen izquierda" class="footer-image">
