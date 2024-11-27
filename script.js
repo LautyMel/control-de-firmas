@@ -155,13 +155,40 @@ function mostrarSugerencias(input, sugerencias, contenedor) {
     });
 }
 
+// Función para convertir el texto a mayúsculas
+function toUpperCaseInput(event) {
+    event.target.value = event.target.value.toUpperCase();
+}
+
+// Agregar eventos para convertir a mayúsculas en los campos de entrada
+document.getElementById('nombre').addEventListener('input', toUpperCaseInput);
+document.getElementById('apellido').addEventListener('input', toUpperCaseInput);
+document.getElementById('gerencia').addEventListener('input', toUpperCaseInput);
+document.getElementById('subgerencia').addEventListener('input', toUpperCaseInput);
+document.getElementById('mes').addEventListener('input', toUpperCaseInput);
+document.getElementById('observaciones').addEventListener('input', toUpperCaseInput);
+
+// Función para completar los campos con los datos de la persona
 function completarCampos(persona) {
+    // Llenar los campos con los datos de la persona
     document.getElementById('nombre').value = persona.nombre;
     document.getElementById('apellido').value = persona.apellido;
     document.getElementById('cuit').value = persona.cuit;
     document.getElementById('gerencia').value = persona.gerencia;
     document.getElementById('subgerencia').value = persona.subgerencia;
-    // Aquí podrías agregar otros campos si es necesario
+    document.getElementById('mes').value = persona.mes;
+    document.getElementById('fecha').value = persona.fecha;
+    document.getElementById('ingreso').value = persona.ingreso;
+    document.getElementById('egreso').value = persona.egreso;
+    document.getElementById('observaciones').value = persona.observaciones;
+
+    // Convertir todos los valores de los campos a mayúsculas
+    document.getElementById('nombre').value = persona.nombre.toUpperCase();
+    document.getElementById('apellido').value = persona.apellido.toUpperCase();
+    document.getElementById('gerencia').value = persona.gerencia.toUpperCase();
+    document.getElementById('subgerencia').value = persona.subgerencia.toUpperCase();
+    document.getElementById('mes').value = persona.mes.toUpperCase();
+    document.getElementById('observaciones').value = persona.observaciones.toUpperCase();
 }
 
 // Los siguientes 'event listeners' seguirán igual
@@ -280,7 +307,6 @@ function showSummary() {
         </table>
     `;
 }
-
 
 // Función para descargar el Excel completo
 function downloadExcel() {
