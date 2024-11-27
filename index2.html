@@ -275,33 +275,46 @@ window.onload = renderTable;
      
     <!-- Modal para seleccionar opciones de Gerencia y Subgerencia -->
 <div id="selectModal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background-color: rgba(0,0,0,0.5); justify-content: center; align-items: center; padding: 20px;">
-    <div style="background-color:white; padding: 20px; border-radius: 8px;">
-        <h3>Seleccionar Gerencia y Subgerencia</h3>
+    <div style="background-color:white; padding: 20px; border-radius: 8px; ">
+        <h3>SELECCIONAR GERENCIA Y SUBGERENCIA</h3>
 
         <!-- Formulario de selección -->
         <form id="selectForm">
             <label for="gerencia">Elija Gerencia:</label>
             <select id="gerencia" required>
-                <option value="G.O PLANIFICACION">G.O PLANIFICACION</option>
-                <option value="G.O OBRAS EN CALZADA">G.O OBRAS EN CALZADA</option>
-                <option value="G.O COORDINACION DE PUENTES">G.O COORDINACION DE PUENTES</option>
-                <option value="'G.O SOPORTE ADMINISTRATIVO">'G.O SOPORTE ADMINISTRATIVO</option>
                 <option value="DIRECCION GENERAL">DIRECCION GENERAL</option>
+                <option value="G.O COORDINACION DE PUENTES">G.O COORDINACION DE PUENTES</option>
+                <option value="G.O OBRAS EN CALZADA">G.O OBRAS EN CALZADA</option>
+                <option value="G.O PLANIFICACION">G.O PLANIFICACION</option>
+                <option value="G.O SOPORTE ADMINISTRATIVO">G.O SOPORTE ADMINISTRATIVO</option>
+               <option value="UNIDAD DE AUDITORIA INTERNA ">  UNIDAD DE AUDITORIA INTERNA </option>
             </select>
 
             <label for="subgerencia">Elija Subgerencia:</label>
             <select id="subgerencia" required>
-                <option value="SUBGERENCIA OPERATIVA FISCALIZACIÓN Y PLANIFICACIÓN DE CALZADAS">SUBGERENCIA OPERATIVA FISCALIZACIÓN Y PLANIFICACIÓN DE CALZADAS</option>
-                <option value="SUBGERENCIA OPERATIVA INSPECCIÓN Y SOPORTE DE EJECUCIÓN">SUBGERENCIA OPERATIVA INSPECCIÓN Y SOPORTE DE EJECUCIÓN</option>
+                <option value="DIRECCION GENERAL">DIRECCION GENERAL</option>
                 <option value="G.O COORDINACION DE PUENTES">G.O COORDINACION DE PUENTES</option>
-                <option value="G.O PLANIFICACION">G.O PLANIFICACION</option>
                 <option value="G.O OBRAS EN CALZADA">G.O OBRAS EN CALZADA</option>
-                <option value=" DIRECCION GENERAL"> DIRECCION GENERAL</option>
-               <option value="    SUBGERENCIA OPERATIVA GESTIÓN DE OBRAS ">    SUBGERENCIA OPERATIVA GESTIÓN DE OBRAS </option>
+                <option value="G.O PLANIFICACION">G.O PLANIFICACION</option>
+                <option value="G.O SOPORTE ADMINISTRATIVO">G.O SOPORTE ADMINISTRATIVO</option>
+                <option value=" SUBGERENCIA OPERATIVA CERTIFICACIONES"> SUBGERENCIA OPERATIVA CERTIFICACIONES</option>
+                <option value="SUBGERENCIA OPERATIVA COMPRAS Y CONTRATACIONES">SUBGERENCIA OPERATIVA COMPRAS Y CONTRATACIONES</option>
+                <option value="SUBGERENCIA OPERATIVA CONTABILIDAD Y PATRIMONIO ">SUBGERENCIA OPERATIVA CONTABILIDAD Y PATRIMONIO </option>
+              <option value="SUBGERENCIA OPERATIVA DE EMERGENCIAS">SUBGERENCIA OPERATIVA DE EMERGENCIAS</option>
+               <option value="SUBGERENCIA OPERATIVA FISCALIZACIÓN Y PLANIFICACIÓN DE CALZADAS">SUBGERENCIA OPERATIVA FISCALIZACIÓN Y PLANIFICACIÓN DE CALZADAS</option>
+             <option value="SUBGERENCIA OPERATIVA GESTIÓN DE OBRAS">SUBGERENCIA OPERATIVA GESTIÓN DE OBRAS</option>
+             <option value="SUBGERENCIA OPERATIVA INSPECCIÓN Y SOPORTE DE EJECUCIÓN">SUBGERENCIA OPERATIVA INSPECCIÓN Y SOPORTE DE EJECUCIÓN</option>
+             <option value="SUBGERENCIA OPERATIVA LEGALES">SUBGERENCIA OPERATIVA LEGALES</option>
+             <option value="SUBGERENCIA OPERATIVA MANTENIMIENTO DE PUENTES">SUBGERENCIA OPERATIVA MANTENIMIENTO DE PUENTES</option>
+             <option value="SUBGERENCIA OPERATIVA RECLAMOS">SUBGERENCIA OPERATIVA RECLAMOS</option>
+             <option value="SUBGERENCIA OPERATIVA RECURSOS HUMANOS">SUBGERENCIA OPERATIVA RECURSOS HUMANOS</option>
+             <option value="SUBGERENCIA OPERATIVA SEÑALAMIENTO HORIZONTAL">SUBGERENCIA OPERATIVA SEÑALAMIENTO HORIZONTAL</option>
+             <option value="UNIDAD DE AUDITORIA INTERNA">UNIDAD DE AUDITORIA INTERNA</option>
             </select>
-
+          <div  class="button-container">
             <button type="button" onclick="guardarPersona()">Guardar</button>
             <button type="button" onclick="cerrarModal()">Cancelar</button>
+          </div>
         </form>
     </div>
 </div>
