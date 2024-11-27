@@ -38,10 +38,10 @@
             <h1>Control de Firmas</h1>
         </div>
     </header>
-    
+        
     <!-- Botón para redirigir a la lista de contratados -->
     <button onclick="window.location.href='index2.html'">Lista de contratados</button>
-
+    
     <!-- Formulario para ingresar datos de personas -->
     <form id="personForm">
         <label for="apellido">Apellido</label>
@@ -51,7 +51,7 @@
         <label for="nombre">Nombre</label>
         <input type="text" id="nombre" placeholder="Nombre" autocomplete="off" required>
         <div id="sugerenciasNombre" class="autocomplete-suggestions"></div>
-
+        
         <label for="cuit">CUIT</label>
         <input type="text" id="cuit" placeholder="CUIT" pattern="\d{11}" title="El CUIT debe tener 11 dígitos" required>
         
@@ -101,6 +101,19 @@
         const nombreInput = document.getElementById('nombre');
         const sugerenciasNombre = document.getElementById('sugerenciasNombre');
         
+        // Función para convertir el texto a mayúsculas
+        function toUpperCaseInput(event) {
+            event.target.value = event.target.value.toUpperCase();
+        }
+
+        // Agregar evento de conversión a mayúsculas
+        nombreInput.addEventListener('input', toUpperCaseInput);
+        apellidoInput.addEventListener('input', toUpperCaseInput);
+        document.getElementById('gerencia').addEventListener('input', toUpperCaseInput);
+        document.getElementById('subgerencia').addEventListener('input', toUpperCaseInput);
+        document.getElementById('mes').addEventListener('input', toUpperCaseInput);
+        document.getElementById('observaciones').addEventListener('input', toUpperCaseInput);
+        
         nombreInput.addEventListener('input', function() {
             const valor = this.value;
             sugerenciasNombre.innerHTML = '';
@@ -118,10 +131,10 @@
                 });
             }
         });
-        
+
         const apellidoInput = document.getElementById('apellido');
         const sugerenciasApellido = document.getElementById('sugerenciasApellido');
-
+        
         apellidoInput.addEventListener('input', function() {
             const valor = this.value;
             sugerenciasApellido.innerHTML = '';
@@ -139,7 +152,7 @@
                 });
             }
         });
-
+        
         function addPerson() {
             const nombre = nombreInput.value;
             const apellido = apellidoInput.value;
