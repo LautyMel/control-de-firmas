@@ -53,6 +53,14 @@ h1 {
     color: var(--white-color);
 }
 
+h3{  color: var(--black-color);
+    background-color: #ffd700;
+    padding: 10px 20px;
+    text-align: center;
+    margin-top: auto;
+    width: auto;
+}
+
 /* Estilos para los botones */
 .button, .action-button {
     display: inline-block;
