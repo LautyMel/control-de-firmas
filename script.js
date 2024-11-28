@@ -152,7 +152,9 @@ function mostrarSugerencias(input, sugerencias, contenedor) {
             contenedor.innerHTML = ''; // Limpiar sugerencias
         };
         contenedor.appendChild(div);
+        
     });
+    
 }
 
 // Función para convertir el texto a mayúsculas
@@ -160,7 +162,7 @@ function toUpperCaseInput(event) {
     event.target.value = event.target.value.toUpperCase();
 }
 
-// Agregar eventos para convertir a mayúsculas en los campos de entrada
+//  eventos para convertir a mayúsculas en los campos de entrada
 document.getElementById('nombre').addEventListener('input', toUpperCaseInput);
 document.getElementById('apellido').addEventListener('input', toUpperCaseInput);
 document.getElementById('gerencia').addEventListener('input', toUpperCaseInput);
@@ -181,6 +183,7 @@ function completarCampos(persona) {
     document.getElementById('ingreso').value = persona.ingreso;
     document.getElementById('egreso').value = persona.egreso;
     document.getElementById('observaciones').value = persona.observaciones;
+    
 
     // Convertir todos los valores de los campos a mayúsculas
     document.getElementById('nombre').value = persona.nombre.toUpperCase();
@@ -191,9 +194,9 @@ function completarCampos(persona) {
     document.getElementById('observaciones').value = persona.observaciones.toUpperCase();
 }
 
-// Los siguientes 'event listeners' seguirán igual
 document.getElementById('nombre').addEventListener('input', function() {
     mostrarSugerencias(this, personas, document.getElementById('sugerenciasNombre'));
+
 });
 
 document.getElementById('apellido').addEventListener('input', function() {
