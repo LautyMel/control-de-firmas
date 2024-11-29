@@ -8,7 +8,8 @@
     <script>
         
       const personas = JSON.parse(localStorage.getItem('personas')) || [
-          ];
+      
+    ];
 
         function renderTable() {
             const table = document.getElementById('personasTable');
@@ -54,20 +55,22 @@
 
 function addPersona() {
     // Solicitar el nombre, apellido y cuit a través de prompts
-    const nombre = prompt('Cargar Nombre del Contratado:').toUpperCase();
-    const apellido = prompt('Cargar Apellido del Contratado:').toUpperCase();
-    const cuit = prompt('Cargar CUIT del Contratado:').toUpperCase();
-
-    // Mostrar el modal para elegir Gerencia y Subgerencia
-    document.getElementById('selectModal').style.display = 'flex';
+    const nombre = prompt('Ingresar Nombre del Contratado:').toUpperCase();
+    const apellido = prompt('Ingresar Apellido del Contratado:').toUpperCase();
+    const cuit = prompt('Ingresar CUIT del Contratado:').replace(/[^0-9]/g, '');
+    while( cuit.length !==11){
+        cuit =  prompt('CUIT Invalido. Por favor, ingrese un CUIT de 11 digitos:', cuit).replace(/[^0-9]/g, '');
+    } 
+     // Mostrar el modal para elegir Gerencia y Subgerencia
+ document.getElementById('selectModal').style.display = 'flex';
 
     // Guardar la persona con los valores obtenidos hasta ahora (sin gerencia ni subgerencia)
     // Guardamos la persona sin estos dos campos por ahora
-    personas.push({ nombre, apellido, cuit, gerencia: "", subgerencia: "" });
+  personas.push({ nombre, apellido, cuit, gerencia: "", subgerencia: "" });
 
     // Guardamos temporalmente el índice de la persona que estamos editando
     // Esto se usará más tarde para actualizar esa persona con las opciones elegidas
-    localStorage.setItem('personas', JSON.stringify(personas));
+  localStorage.setItem('personas', JSON.stringify(personas));
 }
 function guardarPersona() {
     // Obtener los valores seleccionados de los select
@@ -98,7 +101,10 @@ function editPersona(index) {
     // Solicitar los datos del usuario y convertir a mayúsculas
     persona.nombre = prompt('Nombre:', persona.nombre).toUpperCase();
     persona.apellido = prompt('Apellido:', persona.apellido).toUpperCase();
-    persona.cuit = prompt('CUIT:', persona.cuit).toUpperCase();
+    persona.cuit =  prompt('CUIT:', persona.cuit).replace(/[^0-9]/g, '');
+    while(persona.cuit.length !==11){
+        persona.cuit =  prompt('CUIT Invalido. Por favor, ingrese un CUIT de 11 digitos:', persona.cuit).replace(/[^0-9]/g, '');
+    } 
     persona.gerencia = prompt('Gerencia:', persona.gerencia).toUpperCase();
     persona.subgerencia = prompt('Subgerencia:', persona.subgerencia).toUpperCase();
 
@@ -202,7 +208,7 @@ window.onload = renderTable;
    
     <footer>
         <div class="footer-container">
-            <img src="https://badesdeadentro.gob.ar/sites/default/files/2017-08/2017-08-09.png" alt="Imagen izquierda" class="footer-image">
+            <img src="https://badesdeadentro.gob.ar/sites/default/files/2017-08/2017-08-09.png" alt="Logo Buenos Aires" class="footer-image">
         </div>
     </footer>
 </body>
