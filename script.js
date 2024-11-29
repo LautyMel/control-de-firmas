@@ -60,11 +60,10 @@ function completarCampos(persona) {
     document.getElementById('cuit').value = persona.cuit;
     document.getElementById('gerencia').value = persona.gerencia;
     document.getElementById('subgerencia').value = persona.subgerencia;
-    document.getElementById('mes').value = persona.mes;
     document.getElementById('fecha').value = persona.fecha;
     document.getElementById('ingreso').value = persona.ingreso;
     document.getElementById('egreso').value = persona.egreso;
-    document.getElementById('observaciones').value = persona.observaciones;
+   
     
 
     // Convertir todos los valores de los campos a mayúsculas
