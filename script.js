@@ -185,7 +185,7 @@ function showSummary() {
                     <td>${person.subgerencia}</td>
                     <td>${person.mes}</td>
                     <td>${person.horas.toFixed(2)}</td>
-                     <td><button onclick="removePerson('${person.cuit}')" style= " background-color: #eaeaea;  border: 1px solid black;">❌</button></td>
+                    <td><button onclick="removePerson('${person.cuit}')" style= " background-color: #eaeaea;  border: 1px solid black;">❌</button></td>
                 </tr>
             `).join('')}
         </table>
