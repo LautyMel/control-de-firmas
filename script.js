@@ -1,4 +1,5 @@
-const personas = JSON.parse(localStorage.getItem('personas')) ||[ ];
+const personas = JSON.parse(localStorage.getItem('personas')) ||[
+   ];
 
 // Array para almacenar los datos de las personas
 let persons = [];
@@ -30,7 +31,8 @@ function mostrarSugerencias(input, sugerencias, contenedor) {
         div.onclick = () => {
             completarCampos(elemento); // Completar campos del formulario
             contenedor.innerHTML = ''; // Limpiar sugerencias
-        };
+        
+        }
         contenedor.appendChild(div);
         
     });
