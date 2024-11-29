@@ -177,3 +177,21 @@ footer {
 #miFormulario {
     position: relative;
 }
+.autocomplete-suggestions {
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+    position: absolute;
+    z-index: 1000;
+    background-color: white;
+}
+.suggestion {
+    padding: 10px;
+    cursor: pointer;
+}
+.suggestion:hover {
+    background-color: #eaeaea;
+}
+#miFormulario {
+    position: relative;
+}
