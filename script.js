@@ -1,16 +1,5 @@
 const personas = JSON.parse(localStorage.getItem('personas')) ||[
-    { nombre: 'MARIA CELESTE', apellido: 'ALEANDRO', cuit: '27443662524', gerencia: 'G.O PLANIFICACION', subgerencia: 'SUBGERENCIA OPERATIVA FISCALIZACIÓN Y PLANIFICACIÓN DE CALZADAS' },
-    { nombre: 'RODRIGO EMANUEL', apellido: 'ALMONACID', cuit: '20326976092', gerencia: 'G.O OBRAS EN CALZADA', subgerencia: 'G.O OBRAS EN CALZADA' },
-    { nombre: 'ALEJANDRO JOSE', apellido: 'AREAL', cuit: '20236699987', gerencia: 'G.O COORDINACION DE PUENTES', subgerencia: 'G.O COORDINACION DE PUENTES' },
-    { nombre: 'LEONEL', apellido: 'ARFUSO', cuit: '20426577012', gerencia: 'G.O PLANIFICACION', subgerencia: 'SUBGERENCIA OPERATIVA FISCALIZACIÓN Y PLANIFICACIÓN DE CALZADAS' },
-    { nombre: 'SILVINA BEATRIZ', apellido: 'ARGENTO', cuit: '27201854127', gerencia: 'G.O PLANIFICAION', subgerencia: 'SUBGERENCIA OPERATIVA FISCALIZACIÓN Y PLANIFICACIÓN DE CALZADAS' },
-    { nombre: 'IGNACIO', apellido: 'ARIAS', cuit: '20359721324', gerencia: 'G.O COORDINACION DE PUENTES', subgerencia: 'G.O COORDINACION DE PUENTES' },
-    { nombre: 'MAXIMO', apellido: 'ATENCIO GARCIA', cuit: '20445963810', gerencia: 'G.O OBRAS EN CALZADA', subgerencia: 'G.O OBRAS EN CALZADA' },
-    { nombre: 'VICTORIO', apellido: 'BALDINO REINOSO', cuit: '20926532694', gerencia: 'G.O OBRAS EN CALZADA', subgerencia: 'G.O OBRAS EN CALZADA' },
-    { nombre: 'SEBASTIAN DANIEL ', apellido: 'BARTUCCI', cuit: '20277381614', gerencia: 'G.O PLANIFICACION', subgerencia: 'SUBGERENCIA OPERATIVA FISCALIZACIÓN Y PLANIFICACIÓN DE CALZADAS' },
-    { nombre: 'JORGE ALBERTO', apellido: 'BASSINO', cuit: '20085850750', gerencia: 'G.O PLANIFICACION', subgerencia: 'SUBGERENCIA OPERATIVA FISCALIZACIÓN Y PLANIFICACIÓN DE CALZADAS' },
-    { nombre: 'ROMINA ELIZABETH', apellido: 'BAYARRES', cuit: '27402885047', gerencia: 'DIRECCION GENERAL', subgerencia: 'DIRECCION GENERAL' },
-  { nombre: 'SEBASTIAN MATIAS', apellido: 'ZAGAGLIA', cuit: '20329968872', gerencia: 'G.O OBRAS EN CALZADA', subgerencia: 'SUBGERENCIA OPERATIVA INSPECCIÓN Y SOPORTE DE EJECUCIÓN' }, 
+    
 ];
 
 
