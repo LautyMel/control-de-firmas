@@ -102,12 +102,12 @@ button:hover {
 
 /* Estilos para el contenedor del resumen */
 #summary {
-    max-width: auto; 
+    max-width: 600px; 
     margin: 20px auto; 
-    background-color: rgb(241, 233, 233); 
+    background-color: rgba(255, 255, 255, 0.9); 
     padding: 20px; 
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(250, 238, 6, 0.012);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Estilos para las tablas */
@@ -119,7 +119,7 @@ table {
 
 /* Bordes de las tablas, celdas y encabezados */
 table, th, td {
-    border:1px solid #faf0f0; 
+    border: 1px solid #ccc; 
 }
 
 /* Relleno y alineación de las celdas */
@@ -130,7 +130,7 @@ th, td {
 
 /* Estilos para los encabezados de las tablas */
 th {
-    background-color: #ffd700; 
+    background-color: #f2f2f2; 
 }
 
 /* Estilos para el contenedor de botones */
@@ -171,27 +171,9 @@ footer {
     cursor: pointer;
 }
 .suggestion:hover {
-    background-color: #f0e9e9;
-}
-
-#miFormulario {
-    position: relative;
-}
-.autocomplete-suggestions {
-    border: 1px solid #ccc;
-    max-height: 150px;
-    overflow-y: auto;
-    position: absolute;
-    z-index: 1000;
-    background-color: white;
-}
-.suggestion {
-    padding: 10px;
-    cursor: pointer;
-}
-.suggestion:hover {
     background-color: #eaeaea;
 }
+/* Adicionalmente, podrías agregar estilos para form */
 #miFormulario {
     position: relative;
 }
