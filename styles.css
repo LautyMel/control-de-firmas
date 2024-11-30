@@ -1,19 +1,24 @@
 /* Definición de variables CSS para colores y fuentes */
 :root {
-    --primary-color: #ffd700; 
-    --secondary-color: #333; 
-    --background-color: #f4f4f4; 
-    --font-family: 'Arial', sans-serif; 
-    --white-color: #fff; 
-    --input-border-color: #ccc; 
-    --input-focus-border-color: #ffcc00; 
+    --primary-color: #ffd700; /* Amarillo */
+    --secondary-color: #333; /* Gris oscuro para el texto */
+    --background-color: #f8f7f8c5; /* Fondo claro */
+    --font-family: 'Arial', sans-serif; /* Fuente de texto */
+    --white-color: black; /* Texto en color negro para contraste */
+    --input-border-color: #ccc; /* Color de borde de los campos de entrada */
+    --input-focus-border-color: #fffb00; /* Color de borde cuando los campos están enfocados */
 }
 
 /* Estilos generales para el cuerpo del documento */
 body {
     font-family: var(--font-family); 
-    margin: 20px; 
     background-color: var(--background-color); 
+    background-image: url('https://wallpapers.com/images/hd/buenos-aires-the-obelisk-at-night-kfxj30ofo8r2lvfl.jpg'); /* Imagen de fondo del Obelisco */
+    background-size: cover;  /* Hace que la imagen cubra toda la página */
+    background-position: center; /* Centra la imagen */
+    background-attachment: fixed; /* Hace que el fondo se quede fijo al hacer scroll */
+    margin: 20px; 
+    color: #ffd900  ; /* Color de texto gris oscuro */
 }
 
 /* Estilos para el encabezado */
@@ -38,7 +43,7 @@ header {
 .logo {
     max-width: 150px; 
     margin-right: 10px; 
-    filter: brightness(0) invert(1); 
+    filter: grayscale(100%) invert(100%); /* Los logos serán negros */
 }
 
 /* Contenedor del título */
@@ -50,19 +55,21 @@ header {
 /* Estilos para el título principal */
 h1 {
     margin: 0; 
-    color: var(--white-color); 
+    color: var(--white-color); /* Título en color negro para contraste */
 }
 
 /* Estilos para el formulario */
 form {
-    background-color: rgba(255, 255, 255, 0.9); 
-    padding: 20px; 
+    background-color: transparent; 
+    padding: 35px; 
     border-radius: 8px; 
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    
     max-width: 600px; 
     margin: 0 auto; 
     width: 100%; 
 }
+
+
 
 /* Estilos para los campos de entrada */
 input {
@@ -104,21 +111,24 @@ button:hover {
 #summary {
     max-width: auto; 
     margin: 20px auto; 
-    background-color: white;
+    background-color: transparent;
     padding: 20px; 
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
 /* Estilos para las tablas */
 table {
     width: 100%; 
     border-collapse: collapse; 
     margin-top: 20px; 
+    background-color: white;
 }
 
 /* Bordes de las tablas, celdas y encabezados */
 table, th, td {
-    border: 1px solid #ccc; 
+    border: 1px solid #2e2b2b; 
+    color: #000;
 }
 
 /* Relleno y alineación de las celdas */
@@ -129,7 +139,8 @@ th, td {
 
 /* Estilos para los encabezados de las tablas */
 th {
-    background-color: #ffd700; 
+    background-color: var(--primary-color); 
+    color: var(--secondary-color); /* Color del texto de los encabezados */
 }
 
 /* Estilos para el contenedor de botones */
@@ -137,10 +148,11 @@ th {
     text-align: right; 
     margin-top: 20px; 
 }
+
 /* Estilos para el pie de página */
 footer {
     background-color: var(--primary-color); 
-   padding: 10px; 
+    padding: 10px; 
     border-radius: 8px; 
     margin-top: 20px; 
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); 
@@ -155,8 +167,11 @@ footer {
 
 /* Estilos para la imagen del pie de página */
 .footer-image {
-    max-width: 150px; /
+    max-width: 150px; 
+    filter: grayscale(100%) invert(100%); /* Los logos del pie de página también serán negros */
 }
+
+/* Estilos para las sugerencias de autocompletado */
 .autocomplete-suggestions {
     border: 1px solid #ccc;
     max-height: 150px;
@@ -165,14 +180,12 @@ footer {
     z-index: 1000;
     background-color: white;
 }
+
 .suggestion {
     padding: 10px;
     cursor: pointer;
 }
+
 .suggestion:hover {
     background-color: #eaeaea;
-}
-/* Adicionalmente, podrías agregar estilos para form */
-#miFormulario {
-    position: relative;
 }
