@@ -18,7 +18,10 @@ function loadPersons() {
 // Función para mostrar sugerencias
 function mostrarSugerencias(input, sugerencias, contenedor) {
     contenedor.innerHTML = ''; // Limpiar sugerencias anteriores
-    if (!input.value) return; // Si no hay valor, no mostrar nada
+    if (!input.value) {
+        contenedor.style.display = 'none'; // Ocultar sugerencias si no hay valor
+        return;
+    }
 
     const valorLower = input.value.toLowerCase();
     const filtrados = sugerencias.filter(persona => 
@@ -26,20 +29,48 @@ function mostrarSugerencias(input, sugerencias, contenedor) {
         persona.apellido.toLowerCase().includes(valorLower)
     );
 
+    // Si no hay sugerencias, ocultamos el contenedor
+    if (filtrados.length === 0) {
+        contenedor.style.display = 'none';
+    } else {
+        contenedor.style.display = 'block'; // Mostrar las sugerencias
+    }
+
+    // Mostrar las sugerencias filtradas
     filtrados.forEach(elemento => {
         const div = document.createElement('div');
         div.classList.add('suggestion');
         div.textContent = `${elemento.nombre} ${elemento.apellido} - ${elemento.cuit} (${elemento.gerencia}, ${elemento.subgerencia})`;
+
+        // Acción cuando se selecciona una sugerencia
         div.onclick = () => {
             completarCampos(elemento); // Completar campos del formulario
             contenedor.innerHTML = ''; // Limpiar sugerencias
-        
-        }
+            contenedor.style.display = 'none'; // Ocultar las sugerencias después de seleccionar una
+        };
+
         contenedor.appendChild(div);
-        
     });
-    
 }
+
+// Cerrar las sugerencias cuando se haga clic fuera del campo de entrada
+document.addEventListener('click', function(event) {
+    const isClickInside = document.getElementById('nombre').contains(event.target) || 
+                          document.getElementById('apellido').contains(event.target);
+
+    if (!isClickInside) {
+        document.getElementById('sugerenciasNombre').style.display = 'none';
+        document.getElementById('sugerenciasApellido').style.display = 'none';
+    }
+});
+
+document.getElementById('nombre').addEventListener('input', function() {
+    mostrarSugerencias(this, personas, document.getElementById('sugerenciasNombre'));
+});
+
+document.getElementById('apellido').addEventListener('input', function() {
+    mostrarSugerencias(this, personas, document.getElementById('sugerenciasApellido'));
+});
 
 // Función para convertir el texto a mayúsculas
 function toUpperCaseInput(event) {
@@ -65,8 +96,6 @@ function completarCampos(persona) {
     document.getElementById('fecha').value = persona.fecha;
     document.getElementById('ingreso').value = persona.ingreso;
     document.getElementById('egreso').value = persona.egreso;
-   
-    
 
     // Convertir todos los valores de los campos a mayúsculas
     document.getElementById('nombre').value = persona.nombre.toUpperCase();
@@ -79,13 +108,11 @@ function completarCampos(persona) {
 
 document.getElementById('nombre').addEventListener('input', function() {
     mostrarSugerencias(this, personas, document.getElementById('sugerenciasNombre'));
-
 });
 
 document.getElementById('apellido').addEventListener('input', function() {
     mostrarSugerencias(this, personas, document.getElementById('sugerenciasApellido'));
 });
-
 // Función para agregar una persona al array
 function addPerson() {
     // Obtener los valores de los campos de ingreso y egreso
