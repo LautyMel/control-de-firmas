@@ -179,6 +179,7 @@ footer {
     position: absolute;
     z-index: 1000;
     background-color: white;
+     color: #000;
 }
 
 .suggestion {
