@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datos Cargados</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="https://buenosaires.gob.ar/assets/img/logos/LogoBA.svg" alt="Logo Buenos Aires" class="logo">
+        </div>
+        <div class="title-container">
+            <h1>Resumen de Personas Registradas</h1>
+        </div>
+    </header>
+
+    <button class="button" onclick="window.location.href='index.html';">Volver al formulario</button>
+
+    <table id="tablaPersonas">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>CUIT</th>
+                <th>Fecha</th>
+                <th>Hora Ingreso</th>
+                <th>Hora Egreso</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Los datos se llenarán aquí -->
+        </tbody>
+    </table>
+
+    <form>
+        <div class="button-container">
+            <button type="button" onclick="downloadExcel()">Descargar Excel Completo</button>
+        </div>
+    </form>
+
+    <script>
+        function cargarPersonas() {
+            const personas = JSON.parse(localStorage.getItem('persons')) || [];
+            const tablaPersonas = document.querySelector('#tablaPersonas tbody');
+
+            // Limpiar la tabla antes de llenarla
+            tablaPersonas.innerHTML = '';
+
+            if (personas.length === 0) {
+                const tr = document.createElement('tr');
+                const td = document.createElement('td');
+                td.colSpan = 7;
+                td.textContent = 'No hay personas registradas';
+                tr.appendChild(td);
+                tablaPersonas.appendChild(tr);
+                return;
+            }
+
+            personas.forEach((persona, index) => {
+                const tr = document.createElement('tr');
+
+                const tdNombre = createEditableCell(persona.nombre, index, 'nombre');
+                const tdApellido = createEditableCell(persona.apellido, index, 'apellido');
+                const tdCuit = createEditableCell(persona.cuit, index, 'cuit');
+                const tdFecha = createEditableCell(persona.fecha, index, 'fecha');
+                const tdIngreso = createEditableCell(persona.ingreso, index, 'ingreso');
+                const tdEgreso = createEditableCell(persona.egreso, index, 'egreso');
+                
+                const tdAcciones = document.createElement('td');
+                const btnEditarIngreso = document.createElement('button');
+                btnEditarIngreso.textContent = 'Editar Ingreso';
+                btnEditarIngreso.onclick = () => editarHora(index, 'ingreso');
+                
+                const btnEditarEgreso = document.createElement('button');
+                btnEditarEgreso.textContent = 'Editar Egreso';
+                btnEditarEgreso.onclick = () => editarHora(index, 'egreso');
+
+                tdAcciones.appendChild(btnEditarIngreso);
+                tdAcciones.appendChild(btnEditarEgreso);
+
+                tr.appendChild(tdNombre);
+                tr.appendChild(tdApellido);
+                tr.appendChild(tdCuit);
+                tr.appendChild(tdFecha);
+                tr.appendChild(tdIngreso);
+                tr.appendChild(tdEgreso);
+                tr.appendChild(tdAcciones);
+
+                tablaPersonas.appendChild(tr);
+            });
+        }
+
+        function createEditableCell(value, rowIndex, columnName) {
+            const td = document.createElement('td');
+            td.textContent = value;
+            td.setAttribute('contenteditable', 'true');
+            td.addEventListener('blur', () => updatePersonData(rowIndex, columnName, td.textContent));
+            return td;
+        }
+
+        function updatePersonData(rowIndex, columnName, newValue) {
+            const personas = JSON.parse(localStorage.getItem('persons')) || [];
+            if (personas[rowIndex]) {
+                personas[rowIndex][columnName] = newValue;
+
+                if (columnName === 'ingreso' || columnName === 'egreso') {
+                    const ingreso = personas[rowIndex].ingreso;
+                    const egreso = personas[rowIndex].egreso;
+                    const horasCumplidas = calculateHours(ingreso, egreso);
+                    personas[rowIndex].horas = horasCumplidas;
+
+                    localStorage.setItem('persons', JSON.stringify(personas));
+                }
+            }
+        }
+
+        function calculateHours(ingreso, egreso) {
+            const [ingresoHours, ingresoMinutes] = ingreso.split(':').map(Number);
+            const [egresoHours, egresoMinutes] = egreso.split(':').map(Number);
+
+            const ingresoDate = new Date(0, 0, 0, ingresoHours, ingresoMinutes);
+            const egresoDate = new Date(0, 0, 0, egresoHours, egresoMinutes);
+
+            let diff = (egresoDate - ingresoDate) / (1000 * 60 * 60);
+            if (diff < 0) diff += 24;
+
+            return diff.toFixed(2);
+        }
+
+        function editarHora(rowIndex, tipo) {
+            const personas = JSON.parse(localStorage.getItem('persons')) || [];
+            const persona = personas[rowIndex];
+
+            const nuevaHora = prompt(`Introduce la nueva hora de ${tipo} (Formato HH:MM):`, persona[tipo]);
+            if (nuevaHora) {
+                persona[tipo] = nuevaHora;
+                updatePersonData(rowIndex, tipo, nuevaHora);
+                cargarPersonas();  // Actualizar la tabla sin duplicar datos
+            }
+        }
+
+        function downloadExcel() {
+            const table = document.getElementById("tablaPersonas");
+            const wb = XLSX.utils.table_to_book(table, { sheet: "Personas" });
+            XLSX.writeFile(wb, "personas_registradas.xlsx");
+        }
+
+        window.onload = cargarPersonas;
+    </script>
+
+    <footer>
+        <div class="footer-container">
+            <img src="https://badesdeadentro.gob.ar/sites/default/files/2017-08/2017-08-09.png" alt="Logo Buenos Aires" class="footer-image">
+        </div>
+    </footer>
+
+</body>
+</html>
