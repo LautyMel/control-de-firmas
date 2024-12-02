@@ -91,7 +91,7 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
-    background-color: white;
+   background-color: rgba(183, 180, 180, 0.73);
 }
 
 /* Bordes de las tablas, celdas y encabezados */
