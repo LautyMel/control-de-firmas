@@ -11,7 +11,9 @@ function renderTable() {
         row.insertCell(3).innerText = persona.gerencia;
         row.insertCell(4).innerText = persona.subgerencia;
         const actions = row.insertCell(5);
-        actions.innerHTML = `<button class="button" onclick="editPersona(${index})">Editar</button> <button class="button" onclick="deletePersona(${index})">Eliminar</button>`;
+        actions.innerHTML = `<td><button onclick="editPersona(${index})" style= " background-color: #eaeaea;  border: 1px solid black; margin: 4px auto;">✏️</button></td> 
+        <td><button onclick="deletePersona(${index})" style= " background-color: #eaeaea;  border: 1px solid black;">❌</button></td> `;
+       
     });
 }
 
