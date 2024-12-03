@@ -6,6 +6,8 @@
     <title>Datos Cargados</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
+
+
 </head>
 
 <body>
@@ -14,7 +16,7 @@
             <img src="https://buenosaires.gob.ar/assets/img/logos/LogoBA.svg" alt="Logo Buenos Aires" class="logo">
         </div>
         <div class="title-container">
-            <h1>Resumen de Personas Registradas</h1>
+            <h1>Personas Registradas</h1>
         </div>
     </header>
 
@@ -44,113 +46,137 @@
     </form>
 
     <script>
-        function cargarPersonas() {
-            const personas = JSON.parse(localStorage.getItem('persons')) || [];
-            const tablaPersonas = document.querySelector('#tablaPersonas tbody');
+        // Función para cargar las personas en la tabla
+    function cargarPersonas() {
+        const personas = JSON.parse(localStorage.getItem('persons')) || [];
+        const tablaPersonas = document.querySelector('#tablaPersonas tbody');
 
-            // Limpiar la tabla antes de llenarla
-            tablaPersonas.innerHTML = '';
+        // Limpiar la tabla antes de llenarla
+        tablaPersonas.innerHTML = '';
 
-            if (personas.length === 0) {
-                const tr = document.createElement('tr');
-                const td = document.createElement('td');
-                td.colSpan = 7;
-                td.textContent = 'No hay personas registradas';
-                tr.appendChild(td);
-                tablaPersonas.appendChild(tr);
-                return;
-            }
-
-            personas.forEach((persona, index) => {
-                const tr = document.createElement('tr');
-
-                const tdNombre = createEditableCell(persona.nombre, index, 'nombre');
-                const tdApellido = createEditableCell(persona.apellido, index, 'apellido');
-                const tdCuit = createEditableCell(persona.cuit, index, 'cuit');
-                const tdFecha = createEditableCell(persona.fecha, index, 'fecha');
-                const tdIngreso = createEditableCell(persona.ingreso, index, 'ingreso');
-                const tdEgreso = createEditableCell(persona.egreso, index, 'egreso');
-                
-                const tdAcciones = document.createElement('td');
-                const btnEditarIngreso = document.createElement('button');
-                btnEditarIngreso.textContent = 'Editar Ingreso';
-                btnEditarIngreso.onclick = () => editarHora(index, 'ingreso');
-                
-                const btnEditarEgreso = document.createElement('button');
-                btnEditarEgreso.textContent = 'Editar Egreso';
-                btnEditarEgreso.onclick = () => editarHora(index, 'egreso');
-
-                tdAcciones.appendChild(btnEditarIngreso);
-                tdAcciones.appendChild(btnEditarEgreso);
-
-                tr.appendChild(tdNombre);
-                tr.appendChild(tdApellido);
-                tr.appendChild(tdCuit);
-                tr.appendChild(tdFecha);
-                tr.appendChild(tdIngreso);
-                tr.appendChild(tdEgreso);
-                tr.appendChild(tdAcciones);
-
-                tablaPersonas.appendChild(tr);
-            });
-        }
-
-        function createEditableCell(value, rowIndex, columnName) {
+        if (personas.length === 0) {
+            const tr = document.createElement('tr');
             const td = document.createElement('td');
-            td.textContent = value;
-            td.setAttribute('contenteditable', 'true');
-            td.addEventListener('blur', () => updatePersonData(rowIndex, columnName, td.textContent));
-            return td;
+            td.colSpan = 7;
+            td.textContent = 'No hay personas registradas';
+            tr.appendChild(td);
+            tablaPersonas.appendChild(tr);
+            return;
         }
 
-        function updatePersonData(rowIndex, columnName, newValue) {
-            const personas = JSON.parse(localStorage.getItem('persons')) || [];
-            if (personas[rowIndex]) {
-                personas[rowIndex][columnName] = newValue;
+        personas.forEach((persona, index) => {
+            const tr = document.createElement('tr');
 
-                if (columnName === 'ingreso' || columnName === 'egreso') {
-                    const ingreso = personas[rowIndex].ingreso;
-                    const egreso = personas[rowIndex].egreso;
-                    const horasCumplidas = calculateHours(ingreso, egreso);
-                    personas[rowIndex].horas = horasCumplidas;
+            const tdNombre = createNonEditableCell(persona.nombre);
+            const tdApellido = createNonEditableCell(persona.apellido);
+            const tdCuit = createNonEditableCell(persona.cuit); 
+            const tdFecha = createNonEditableCell(persona.fecha);
+            const tdIngreso = createNonEditableCell(persona.ingreso);
+            const tdEgreso = createNonEditableCell(persona.egreso);
 
-                    localStorage.setItem('persons', JSON.stringify(personas));
-                }
+            const tdAcciones = document.createElement('td');
+            const btnEditarIngreso = document.createElement('button');
+            btnEditarIngreso.textContent = 'Editar Ingreso';
+            btnEditarIngreso.onclick = () => editarHora(index, 'ingreso');
+            
+            const btnEditarEgreso = document.createElement('button');
+            btnEditarEgreso.textContent = 'Editar Egreso';
+            btnEditarEgreso.onclick = () => editarHora(index, 'egreso');
+
+            tdAcciones.appendChild(btnEditarIngreso);
+            tdAcciones.appendChild(btnEditarEgreso);
+
+            tr.appendChild(tdNombre);
+            tr.appendChild(tdApellido);
+            tr.appendChild(tdCuit);
+            tr.appendChild(tdFecha);
+            tr.appendChild(tdIngreso);
+            tr.appendChild(tdEgreso);
+            tr.appendChild(tdAcciones);
+
+            tablaPersonas.appendChild(tr);
+        });
+    }
+
+   
+
+    function createNonEditableCell(value) {
+        const td = document.createElement('td');
+        td.textContent = value;
+        return td;
+    }
+
+    // Función para actualizar los datos en el localStorage
+    function updatePersonData(rowIndex, columnName, newValue) {
+        const personas = JSON.parse(localStorage.getItem('persons')) || [];
+        if (personas[rowIndex]) {
+            personas[rowIndex][columnName] = newValue;
+
+            if (columnName === 'ingreso' || columnName === 'egreso') {
+                const ingreso = personas[rowIndex].ingreso;
+                const egreso = personas[rowIndex].egreso;
+                const horasCumplidas = calculateHours(ingreso, egreso);
+                personas[rowIndex].horas = horasCumplidas;
+
+                localStorage.setItem('persons', JSON.stringify(personas));
             }
         }
+    }
 
-        function calculateHours(ingreso, egreso) {
-            const [ingresoHours, ingresoMinutes] = ingreso.split(':').map(Number);
-            const [egresoHours, egresoMinutes] = egreso.split(':').map(Number);
+    // Función para calcular las horas trabajadas
+    function calculateHours(ingreso, egreso) {
+        const [ingresoHours, ingresoMinutes] = ingreso.split(':').map(Number);
+        const [egresoHours, egresoMinutes] = egreso.split(':').map(Number);
 
-            const ingresoDate = new Date(0, 0, 0, ingresoHours, ingresoMinutes);
-            const egresoDate = new Date(0, 0, 0, egresoHours, egresoMinutes);
+        const ingresoDate = new Date(0, 0, 0, ingresoHours, ingresoMinutes);
+        const egresoDate = new Date(0, 0, 0, egresoHours, egresoMinutes);
 
-            let diff = (egresoDate - ingresoDate) / (1000 * 60 * 60);
-            if (diff < 0) diff += 24;
+        let diff = (egresoDate - ingresoDate) / (1000 * 60 * 60);
+        if (diff < 0) diff += 24;
 
-            return diff.toFixed(2);
+        return diff.toFixed(2);
+    }
+
+    // Función para editar la hora de ingreso o egreso
+    function editarHora(rowIndex, tipo) {
+        const personas = JSON.parse(localStorage.getItem('persons')) || [];
+        const persona = personas[rowIndex];
+
+        const nuevaHora = prompt(`Introduce la nueva hora de ${tipo} (Formato HH:MM):`, persona[tipo]);
+        if (nuevaHora) {
+            persona[tipo] = nuevaHora;
+            updatePersonData(rowIndex, tipo, nuevaHora);
+            cargarPersonas(); // Actualizar la tabla sin duplicar datos
         }
+    }
 
-        function editarHora(rowIndex, tipo) {
-            const personas = JSON.parse(localStorage.getItem('persons')) || [];
-            const persona = personas[rowIndex];
+    function downloadExcel() {
+    const table = document.getElementById("tablaPersonas");
+    
+    // Eliminar la columna de "Acciones"
+    for (let i = 0; i < table.rows.length; i++) {
+        table.rows[i].deleteCell(6); // La columna de "Acciones" es la 7ª (índice 6)
+    }
 
-            const nuevaHora = prompt(`Introduce la nueva hora de ${tipo} (Formato HH:MM):`, persona[tipo]);
-            if (nuevaHora) {
-                persona[tipo] = nuevaHora;
-                updatePersonData(rowIndex, tipo, nuevaHora);
-                cargarPersonas();  // Actualizar la tabla sin duplicar datos
-            }
+    // Crear la hoja de Excel a partir de la tabla
+    const wb = XLSX.utils.table_to_book(table, { sheet: "Personas", raw: true });
+
+    // Asegurarse de que el CUIT se trate como texto en Excel
+    const sheet = wb.Sheets["Personas"];
+    
+    
+    for (let row = 1; row <= sheet["!rows"].length; row++) {
+        const cuitCell = sheet[`C${row}`];
+        if (cuitCell) {
+            cuitCell.t = 's'; // 's' es el tipo de dato para texto
         }
+    }
 
-        function downloadExcel() {
-            const table = document.getElementById("tablaPersonas");
-            const wb = XLSX.utils.table_to_book(table, { sheet: "Personas" });
-            XLSX.writeFile(wb, "personas_registradas.xlsx");
-        }
+    // Descargar el archivo de Excel
+    XLSX.writeFile(wb, "personas_registradas.xlsx");
+}
+window.onload = cargarPersonas;
 
-        window.onload = cargarPersonas;
     </script>
 
     <footer>
