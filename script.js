@@ -138,11 +138,11 @@ function addPerson() {
         observaciones: document.getElementById('observaciones').value
     };
 // Verificar si ya existe una persona con el mismo cuit y fecha
-const existingPerson = persons.find(p => p.cuit === person.cuit && p.fecha === person.fecha);
+const existePerson = persons.find(p => p.cuit === person.cuit && p.fecha === person.fecha);
 
-if (existingPerson) {
+if (existePerson) {
     // Si existe, mostrar un error y detener la ejecución
-    alert('Error: Esta persona ya está registrada con esta fecha.');
+    alert('Esta persona ya está registrada con esta fecha.');
     return; // No agregar la persona
 }
 
