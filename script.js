@@ -1,3 +1,4 @@
+
 const personas = JSON.parse(localStorage.getItem('personas')) ||[
     
 ];
@@ -136,6 +137,15 @@ function addPerson() {
         horas: horasCumplidas,
         observaciones: document.getElementById('observaciones').value
     };
+// Verificar si ya existe una persona con el mismo cuit y fecha
+const existingPerson = persons.find(p => p.cuit === person.cuit && p.fecha === person.fecha);
+
+if (existingPerson) {
+    // Si existe, mostrar un error y detener la ejecución
+    alert('Error: Esta persona ya está registrada con esta fecha.');
+    return; // No agregar la persona
+}
+
 
     // Agregar el objeto al array de personas
     persons.push(person);
